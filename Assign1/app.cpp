@@ -29,20 +29,17 @@ void performDFS(AdjListGraph<N>& graph, N startNode) {
         auto stop = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
-        // Print individual trial durations for debugging
-        std::cout << "Trial " << i + 1 << " duration: " << duration.count() << " microseconds\n";
-
         totalDuration += duration.count(); // Accumulate individual trial durations
-        // Omitted: You can choose to print individual trial durations if needed
     }
 
     auto totalStop = std::chrono::steady_clock::now();
-    auto totalSeconds = static_cast<double>(totalDuration) / 1000000.0; // Convert total duration to seconds
-    std::cout << "Total DFS execution time over " << numTrials << " trials: " << totalSeconds << " seconds" << std::endl;
+    // Assuming you have a variable named totalDuration to store the total duration in microseconds
+    double totalSeconds = static_cast<double>(totalDuration) / 1000000.0;
+
+    // Print the total execution time in seconds
+    cout << "Total DFS execution time over 100 trials: " << totalSeconds << " seconds" << endl;
+
 }
-
-
-
 
 int main() {
     std::vector<int> graphSizes = {2, 8, 64, 256, 1024};
