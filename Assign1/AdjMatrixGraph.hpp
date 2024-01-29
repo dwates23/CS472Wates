@@ -38,6 +38,7 @@ private:
         return -1;
     }
 
+    // Push a node to the stack only if it doesn't already exist
     void pushToStackIfNotExists(N node) {
         if (find(nodeStack.begin(), nodeStack.end(), node) == nodeStack.end()) {
             nodeStack.push(node);
@@ -51,7 +52,9 @@ public:
         
     }
     
+    // Constructor to initialize the graph with nodes and edges
     AdjMatrixGraph(vector<N> newNodes, vector<pair<N, N>> newEdges) {
+        // Initialize nodes and edges using vectors
         for (typename vector<N>::const_iterator it = newNodes.begin();
              it < newNodes.end();
              ++it) {
@@ -59,6 +62,7 @@ public:
             ne->node = *it;
             ne->index = numNodes;
             nodes[numNodes] = ne;
+            // Push the node to the stack if not already present
             pushToStackIfNotExists(*it);
         }
         for (typename vector<pair<N, N>>::const_iterator it = newEdges.begin();
@@ -82,7 +86,7 @@ public:
         return static_cast<double>(rand()) / RAND_MAX;
     }
 
-
+    // Function to check if two nodes are adjacent
     virtual bool adjacent(N x, N y) {
         bool result = false;
         int xIndex = findNodeInMatrix(x);
@@ -95,6 +99,7 @@ public:
         return (result);
     }
 
+    // Function to get neighbors of a given node
     virtual vector<N> neighbors(N x) {
         vector<N> v;
         int xIndex = findNodeInMatrix(x);
@@ -108,15 +113,17 @@ public:
         return v;
     }
 
+    // Function to add a new node to the graph
     virtual void addNode(N node) {
         NodeEntry* ne = new NodeEntry();
         ne->node = node;
         ne->index = numNodes;
         nodes[numNodes] = ne;
         numNodes++;
-        nodeStack.push(ne->node);
+        nodeStack.push(ne->node); // Push the new node to the stack
     }
 
+    // Function to add a new edge between two nodes
     virtual void addEdge(N x, N y) {
         int xIndex = findNodeInMatrix(x);
         int yIndex = findNodeInMatrix(y);
@@ -125,12 +132,14 @@ public:
         }
     }
 
+    // Function to delete an edge between two nodes
     virtual void deleteEdge(N x, N y) {
         int xIndex = findNodeInMatrix(x);
         int yIndex = findNodeInMatrix(y);
         adjMatrix[xIndex][yIndex] = false;
     }
 
+    // Depth-First Search (DFS) traversal
     void dfs(N startNode, std::function<void(N)> visit) {
         map<N, bool> visited;
 
@@ -156,6 +165,7 @@ public:
         }
     }
 
+    // Breadth-First Search (BFS) traversal
     void bfs(N startNode, std::function<void(N)> visit) {
         map<N, bool> visited;
         for (int i = 0; i < numNodes; ++i) {
