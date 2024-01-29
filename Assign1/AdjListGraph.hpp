@@ -130,14 +130,56 @@ AdjListGraph<N>& AdjListGraph<N>::generateGraph(int numberOfNodes, double edgePr
 
 template <class N>
 void AdjListGraph<N>::dfs(N startNode, std::function<void(N)> visit) {
-    // Implement DFS traversal here
-    // You need to provide the actual implementation for DFS
+    std::unordered_map<N, bool> visited;
+
+    std::stack<N> stack;
+    stack.push(startNode);
+
+    while (!stack.empty()) {
+        N current = stack.top();
+        stack.pop();
+
+        if (!visited[current]) {
+            visit(current);
+            visited[current] = true;
+
+            for (const auto& neighbor : vertexMap[current]) {
+                stack.push(neighbor.second);
+            }
+        }
+    }
 }
+
 
 template <class N>
 void AdjListGraph<N>::bfs(N startNode, std::function<void(N)> visit) {
-    // Implement BFS traversal here
-    // You need to provide the actual implementation for BFS
+    std::unordered_map<N, bool> visited;
+
+    // Create a queue for BFS
+    std::queue<N> queue;
+    
+    // Mark the current node as visited and enqueue it
+    visited[startNode] = true;
+    queue.push(startNode);
+
+    while (!queue.empty()) {
+        // Dequeue a vertex from the queue and print it
+        N current = queue.front();
+        queue.pop();
+
+        visit(current);
+
+        // Get all adjacent vertices of the dequeued vertex current
+        // If an adjacent vertex has not been visited, then mark it
+        // visited and enqueue it
+        for (const auto& neighbor : vertexMap[current]) {
+            if (!visited[neighbor.second]) {
+                visited[neighbor.second] = true;
+                queue.push(neighbor.second);
+            }
+        }
+    }
 }
+
 
 
