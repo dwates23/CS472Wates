@@ -15,21 +15,36 @@ std::unique_ptr<AdjMatrixGraph<N>> generateAdjMatrixGraph(int numberOfNodes, dou
 
 template <class N>
 void performDFS(AdjListGraph<N>& graph, N startNode) {
-    auto start = std::chrono::high_resolution_clock::now();
+    int numTrials = 100; // Adjust the number of trials as needed
+    auto totalStart = std::chrono::steady_clock::now();
+    long long totalDuration = 0; // Initialize total duration to accumulate individual trial durations
 
-    graph.dfs(startNode, [](N node) {
-        // You can customize this function to perform any action during DFS traversal
-        // For now, we are just printing the visited nodes
-        std::cout << "Visited: " << node << std::endl;
-    });
+    for (int i = 0; i < numTrials; ++i) {
+        auto start = std::chrono::steady_clock::now();
 
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-    std::cout << "DFS execution time: " << duration.count() << " milliseconds" << std::endl;
+        graph.dfs(startNode, [](N node) {
+            // Omitted for brevity
+        });
+
+        auto stop = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+
+        // Print individual trial durations for debugging
+        std::cout << "Trial " << i + 1 << " duration: " << duration.count() << " microseconds\n";
+
+        totalDuration += duration.count(); // Accumulate individual trial durations
+        // Omitted: You can choose to print individual trial durations if needed
+    }
+
+    auto totalStop = std::chrono::steady_clock::now();
+    auto totalSeconds = static_cast<double>(totalDuration) / 1000000.0; // Convert total duration to seconds
+    std::cout << "Total DFS execution time over " << numTrials << " trials: " << totalSeconds << " seconds" << std::endl;
 }
 
-int main() {
 
+
+
+int main() {
     std::vector<int> graphSizes = {2, 8, 64, 256, 1024};
     double edgeProbability = 0.5;
 
@@ -38,9 +53,13 @@ int main() {
         auto adjListGraph = AdjListGraph<int>::generateGraph(size, edgeProbability);
 
         std::cout << "Graph with " << size << " nodes:" << std::endl;
+        
+        // Call performDFS with the correct starting node
         performDFS(adjListGraph, 0); // Assuming starting DFS from node 0
+        
         std::cout << "-------------------------------------" << std::endl;
     }
+
 
     // Generate an adjacency list graph with 5 nodes and edge probability 0.5
     auto adjListGraph = generateAdjListGraph<int>(5, 0.5);
