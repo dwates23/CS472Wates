@@ -1,0 +1,12 @@
+For this algorithm, we need to take these steps:
+-think of the chocolate bar as a rectangle with the height and width of n x m.
+-find out which is bigger? n or m? 
+-cut the bar along the longer side, which will split the chocolate bar in two smaller rectangles.
+-repeat the previous 2 steps until the chocolate bar pieces measure out to 1 x 1.
+-finally, the amount of cuts made will be counted. This amount represents the minimum number of breaks needed for the bar.
+
+The root of the tree can be see as the chocolate bar before breaks are made. Every level of the tree can
+be seen as the chocolate bar after the breaks were made. One way this algorithm finds the minimum amount 
+of bar breaks for the chocolate is through the greedy strategy. The algorithm will always make cuts along
+the longer side of the bar the way it is at the time. Each break divides what is left of the chocolate bar
+into the largest piece which minimizes the amount of breaks needed to reduce the chocolate bar to 1 x 1.
