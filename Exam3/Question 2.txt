@@ -1,0 +1,5 @@
+*CS472 Exam 3 Question 2*
+The number of bits in binary can be found using log2(n) and rounding up to the nearest integer. Each binary digit represents a power of 2, and log2(n) is used to represent the number of bits needed in n.
+The algorithm for question 2 will check consecutive integers from 2 up to n/2 as possible divisors of n. If any integer it checks divides n evenly, it will return true, showing that n i composite. However,
+if none of them divide n evenly, then n will be shown to be prime and return false. The amount of iterations found in this algorithm are not because of its value, but rather its binary representation. It checks up
+to n/2, which is shown to be exponential to the amount of bits for n. Let's assume n has b bits in binary. N becomes ~2^b. n/2 is the same as checking up to 2^b-1, which is exponential in bits. 
